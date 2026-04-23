@@ -31,14 +31,14 @@ const AppointmentBooking = () => {
 
     const fetchDoctor = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/doctors/${doctorId}`);
+            const res = await axios.get(`/api/doctors/${doctorId}`);
             setDoctor(res.data);
         } catch (err) { navigate('/'); }
     };
 
     const fetchHospitals = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/appointments/hospitals');
+            const res = await axios.get('/api/appointments/hospitals');
             setHospitals(res.data);
             if (res.data.length > 0) setSelectedHospital(res.data[0].id);
         } catch (err) { console.error(err); }
@@ -46,7 +46,7 @@ const AppointmentBooking = () => {
 
     const fetchSlots = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/appointments/slots/${doctorId}/${date}`);
+            const res = await axios.get(`/api/appointments/slots/${doctorId}/${date}`);
             setSlots(res.data);
         } catch (err) { setSlots([]); }
     };
@@ -57,7 +57,7 @@ const AppointmentBooking = () => {
 
         setLoading(true);
         try {
-            await axios.post('http://localhost:5000/api/appointments/book', {
+            await axios.post('/api/appointments/book', {
                 patientId: user.id,
                 doctorId: parseInt(doctorId),
                 slotId: selectedSlot.id,

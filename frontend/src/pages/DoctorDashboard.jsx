@@ -8,7 +8,7 @@ import {
     ChevronDown, ChevronUp, Activity, Search
 } from 'lucide-react';
 
-const socket = io('http://localhost:5000');
+const socket = io();
 
 const DoctorDashboard = () => {
     const [activeTab, setActiveTab] = useState('appointments');
@@ -40,9 +40,9 @@ const DoctorDashboard = () => {
     const fetchData = async () => {
         try {
             const [profileRes, appointmentsRes, slotsRes] = await Promise.all([
-                axios.get(`http://localhost:5000/api/doctors/profile/${user.id}`),
-                axios.get(`http://localhost:5000/api/appointments/doctor/${user.doctorId}`),
-                axios.get(`http://localhost:5000/api/doctors/${user.doctorId}/slots`)
+                axios.get(`/api/doctors/profile/${user.id}`),
+                axios.get(`/api/appointments/doctor/${user.doctorId}`),
+                axios.get(`/api/doctors/${user.doctorId}/slots`)
             ]);
             setProfile(profileRes.data);
             setAppointments(appointmentsRes.data);
@@ -56,7 +56,7 @@ const DoctorDashboard = () => {
 
     const handleStatusUpdate = async (id, status) => {
         try {
-            await axios.patch(`http://localhost:5000/api/appointments/${id}/status`, { status });
+            await axios.patch(`/api/appointments/${id}/status`, { status });
             fetchData();
         } catch (err) {
             console.error('Error updating status:', err);
@@ -66,7 +66,7 @@ const DoctorDashboard = () => {
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/api/doctors/profile/${user.id}`, profile);
+            await axios.put(`/api/doctors/profile/${user.id}`, profile);
             setEditingProfile(false);
             fetchData();
         } catch (err) {
@@ -78,7 +78,7 @@ const DoctorDashboard = () => {
         if (!newSlotDate || !newSlotTimes) return;
         const times = newSlotTimes.split(',').map(t => t.trim()).filter(t => t);
         try {
-            await axios.post(`http://localhost:5000/api/doctors/${user.doctorId}/slots`, {
+            await axios.post(`/api/doctors/${user.doctorId}/slots`, {
                 date: newSlotDate,
                 times
             });
@@ -93,7 +93,7 @@ const DoctorDashboard = () => {
     const handleDeleteSlot = async (slotId) => {
         if (!confirm('Delete this slot?')) return;
         try {
-            await axios.delete(`http://localhost:5000/api/doctors/slots/${slotId}`);
+            await axios.delete(`/api/doctors/slots/${slotId}`);
             fetchData();
         } catch (err) {
             console.error('Error deleting slot:', err);

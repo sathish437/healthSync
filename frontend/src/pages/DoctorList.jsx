@@ -13,7 +13,7 @@ const DoctorList = () => {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/doctors");
+                const res = await axios.get("/api/doctors");
                 setDoctors(res.data);
             } catch (err) {
                 console.error("Failed to fetch doctors:", err);

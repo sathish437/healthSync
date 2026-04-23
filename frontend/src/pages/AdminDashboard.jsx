@@ -24,9 +24,9 @@ const AdminDashboard = () => {
     const fetchAdminData = async () => {
         try {
             const [appointments, doctors, hospitals] = await Promise.all([
-                axios.get('http://localhost:5000/api/appointments/admin/all'),
-                axios.get('http://localhost:5000/api/doctors'),
-                axios.get('http://localhost:5000/api/appointments/hospitals')
+                axios.get('/api/appointments/admin/all'),
+                axios.get('/api/doctors'),
+                axios.get('/api/appointments/hospitals')
             ]);
             setStats({ 
                 appointments: appointments.data, 

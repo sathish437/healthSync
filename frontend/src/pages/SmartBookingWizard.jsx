@@ -38,7 +38,7 @@ const SmartBookingWizard = () => {
 
     const fetchHospitals = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/appointments/hospitals');
+            const res = await axios.get('/api/appointments/hospitals');
             setHospitals(res.data);
             if (res.data.length > 0) setSelectedHospital(res.data[0].id);
         } catch (err) { console.error(err); }
@@ -48,11 +48,11 @@ const SmartBookingWizard = () => {
         if (!symptoms.trim()) return;
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/appointments/analyze-symptoms', { symptoms });
+            const res = await axios.post('/api/appointments/analyze-symptoms', { symptoms });
             setAiAnalysis(res.data);
             
             // Auto-fetch recommended doctors
-            const docRes = await axios.get('http://localhost:5000/api/doctors');
+            const docRes = await axios.get('/api/doctors');
             const filtered = docRes.data.filter(d => 
                 d.specialization.toLowerCase().includes(res.data.recommended_specialization.toLowerCase()) ||
                 res.data.recommended_specialization.toLowerCase().includes(d.specialization.toLowerCase())
@@ -71,7 +71,7 @@ const SmartBookingWizard = () => {
         setLoading(true);
         try {
             const date = new Date().toISOString().split('T')[0];
-            const res = await axios.get(`http://localhost:5000/api/appointments/slots/${doc.id}/${date}`);
+            const res = await axios.get(`/api/appointments/slots/${doc.id}/${date}`);
             setSlots(res.data);
             setStep(3);
         } catch (err) {
@@ -85,7 +85,7 @@ const SmartBookingWizard = () => {
         if (!selectedSlot) return;
         setLoading(true);
         try {
-            await axios.post('http://localhost:5000/api/appointments/book', {
+            await axios.post('/api/appointments/book', {
                 patientId: user.id,
                 doctorId: selectedDoctor.id,
                 slotId: selectedSlot.id,

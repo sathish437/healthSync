@@ -13,7 +13,7 @@ import {
     Loader2
 } from 'lucide-react';
 
-const socket = io('http://localhost:5000');
+const socket = io();
 
 const PatientHistory = () => {
     const [appointments, setAppointments] = useState([]);
@@ -36,7 +36,7 @@ const PatientHistory = () => {
 
     const fetchHistory = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/appointments/patient/${user.id}`);
+            const res = await axios.get(`/api/appointments/patient/${user.id}`);
             setAppointments(res.data);
         } catch (err) {
             console.error(err);

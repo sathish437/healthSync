@@ -8,7 +8,7 @@ import {
     User, Star, Filter, ArrowLeft
 } from 'lucide-react';
 
-const socket = io('http://localhost:5000');
+const socket = io();
 
 const PatientDashboard = () => {
     const [activeTab, setActiveTab] = useState('doctors');
@@ -44,8 +44,8 @@ const PatientDashboard = () => {
     const fetchData = async () => {
         try {
             const [doctorsRes, appointmentsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/doctors'),
-                axios.get(`http://localhost:5000/api/appointments/patient/${user.id}`)
+                axios.get('/api/doctors'),
+                axios.get(`/api/appointments/patient/${user.id}`)
             ]);
             setDoctors(doctorsRes.data);
             setAppointments(appointmentsRes.data);
@@ -80,7 +80,7 @@ const PatientDashboard = () => {
         setBookingError('');
 
         try {
-            await axios.post('http://localhost:5000/api/appointments/book', {
+            await axios.post('/api/appointments/book', {
                 patientId: user.id,
                 doctorId: selectedDoctor.id,
                 slotId: selectedSlot.id,
@@ -103,7 +103,7 @@ const PatientDashboard = () => {
 
     const handleSelectDoctor = async (doctor) => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/doctors/${doctor.id}`);
+            const res = await axios.get(`/api/doctors/${doctor.id}`);
             setSelectedDoctor(res.data);
             setBookingStep(1);
         } catch (err) {
